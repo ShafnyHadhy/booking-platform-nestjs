@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { validate } from './config/env.validation';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { validate } from './config/env.validation';
       validate,
     }),
     PrismaModule,
-    // AuthModule, UsersModule, ServicesModule, BookingsModule come next.
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
