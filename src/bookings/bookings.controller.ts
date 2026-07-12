@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { BookingStatus } from '@prisma/client';
+import { UpdateBookingStatusDto } from './dto/update-booking.dto';
 
 @Controller('bookings')
 export class BookingsController {
@@ -24,6 +25,20 @@ export class BookingsController {
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.bookingsService.findOne(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id/status')
+    updateStatus( @Param('id') id: string,
+        @Body() updateBookingStatusDto: UpdateBookingStatusDto,
+    ) {
+        return this.bookingsService.updateStatus(id, updateBookingStatusDto.status);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(':id/cancel')
+    cancel(@Param('id') id: string) {
+        return this.bookingsService.cancel(id);
     }
 
 }
