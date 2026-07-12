@@ -85,7 +85,33 @@ export class BookingsService {
         if (!booking) {
             throw new NotFoundException(`Booking with ID ${id} not found`);
         }
-        
+
         return booking;
+    }
+
+    async updateStatus(id: string, newStatus: BookingStatus) {
+
+        const booking = await this.findOne(id);
+
+        if (booking.status === BookingStatus.CANCELLED && newStatus === BookingStatus.COMPLETED) {
+            throw new BadRequestException('Cannot transition a cancelled booking to completed');
+        }
+
+        if (booking.status === BookingStatus.COMPLETED) {
+            throw new BadRequestException('Cannot change status of a completed booking');
+        }
+        
+        if (booking.status === BookingStatus.CANCELLED && newStatus !== BookingStatus.CANCELLED) {
+            throw new BadRequestException('Cannot change status of a cancelled booking');
+        }
+
+        return this.prisma.booking.update({
+            where: { id },
+            data: { status: newStatus },
+        });
+    }
+
+    async cancel(id: string) {
+        return this.updateStatus(id, BookingStatus.CANCELLED);
     }
 }
