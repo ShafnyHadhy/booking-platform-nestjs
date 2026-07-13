@@ -1,8 +1,8 @@
-# EN2H Booking Platform REST API
+# Booking Platform REST API
 
 ## Project Overview
 
-This is a backend REST API for a Booking Platform, built for the EN2H Software Engineering Intern take-home assignment. It allows for user authentication, managing services, and creating/managing customer bookings.
+A NestJS backend REST API for a Booking Platform that provides user authentication, service management (CRUD), and customer booking lifecycle management (create, view, update status, cancel).
 
 ## Technologies Used
 
